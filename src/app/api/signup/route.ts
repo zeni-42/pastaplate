@@ -4,7 +4,7 @@ import ResponseHelper from "@/lib/responseHelper"
 import { User } from "@/models/User.models";
 import bcrypt from "bcryptjs"
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
     const { fullName, userName, password } = await req.json()
     if (!fullName || !userName || !password) {
         return ResponseHelper.error("All fields are required", 401)
@@ -29,7 +29,7 @@ export async function POST(req: Request, res: Response) {
         })
 
         const createdUser = await User.findById(user._id).select(
-            "-token -password -__v"
+            "-token -password -__v -createdAt -updatedAt"
         )
         if (!createdUser) {
             return ResponseHelper.error("Error creating user", 405)
@@ -41,5 +41,4 @@ export async function POST(req: Request, res: Response) {
         console.log(`Somthing went wrong in signup route`);
         return ResponseHelper.error("Internal server error", 500, error)
     }
-
 }

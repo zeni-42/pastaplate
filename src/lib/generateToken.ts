@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken"
-import crypto from "crypto"
 
 export const generateToken = (fullName: string, userName: string, password: string) => {
     const secret = process.env.TOKEN_SECRET;
@@ -18,7 +17,8 @@ export const generateToken = (fullName: string, userName: string, password: stri
         }
     )
 
-    const hashedToken = crypto.createHash("sha256").update(token).digest("base64url")
-    console.log(hashedToken);
-    return hashedToken;
+    return token
+    // const hashedToken = crypto.createHash("sha256").update(token).digest("base64url")
+    // console.log(hashedToken);
+    // return hashedToken;
 }
