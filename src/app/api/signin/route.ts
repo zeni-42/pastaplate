@@ -20,7 +20,7 @@ export async function POST(req:Request) {
 
         const isValidPassowrd = await bcrypt.compare(password, user.password)
         if (!isValidPassowrd) {
-            return ResponseHelper.error("Invalid credntials", 400)
+            return ResponseHelper.error("Invalid credentials", 400)
         }
 
         const loggedInUser = await User.findById(user._id).select(
@@ -30,9 +30,9 @@ export async function POST(req:Request) {
         const ck = await cookies()
         ck.set("token", user.token)
 
-        return ResponseHelper.success(loggedInUser, "User loggedin", 200)
+        return ResponseHelper.success(loggedInUser, "User logged in", 200)
     } catch (error) {
-        console.log(`Somthing went wrog in signin route`);
+        console.log(`Somthing went wrong in signin route`);
         return ResponseHelper.error("Internal server error", 500)
     }
 }
