@@ -23,8 +23,8 @@ export default function Page(){
                 const userId = response.data?.data?._id;
                 const userName = response.data?.data?.userName;
                 const fullName = response.data?.data?.fullName;
-                const avtar = response.data?.data?.avtar;
-                setUser(fullName, userName, userId, avtar )
+                const avatar = response.data?.data?.avatar;
+                setUser(fullName, userName, userId, avatar )
 
                 router.push('/dashboard')
                 toast.success(response.data?.message || "Authenticated")

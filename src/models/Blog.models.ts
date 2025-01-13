@@ -6,6 +6,7 @@ export interface blogInterface extends Document{
     author: ObjectId;
     content: String;
     tags: string;
+    points: ObjectId[];
 }
 
 const blogSchema: Schema<blogInterface> = new mongoose.Schema({
@@ -33,7 +34,11 @@ const blogSchema: Schema<blogInterface> = new mongoose.Schema({
     tags:{
         type: String,
         required: true,
-    }
+    },
+    points:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User",
+    }]
 }, { timestamps: true })
 
 export const Blog = mongoose.models.Blog as mongoose.Model<blogInterface> || mongoose.model<blogInterface>("Blog", blogSchema)

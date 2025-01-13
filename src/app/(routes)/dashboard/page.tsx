@@ -1,4 +1,6 @@
 "use client"
+import Navbar from "@/components/Navbar"
+import { Button } from "@/components/ui/button"
 import userStore from "@/lib/userStore"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -16,8 +18,15 @@ export default function Page(){
     },[userId])
     return(
         <>
-        <div className="mt-14" >
-            {`Welcome ${fullName}`}
+        <Navbar />
+        <div className="mt-14 px-96">
+            <div className="mb-5 w-full h-14 flex items-center text-xl justify-between font-medium" >
+                {`👋 Welcome ${fullName}!`}
+                <Button>Add post</Button>
+            </div>
+            <div className="w-full">
+                <h3>You might be intrested in</h3>
+            </div>
         </div>
         </>
     )

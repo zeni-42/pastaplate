@@ -1,8 +1,12 @@
 "use client"
+import userStore from "@/lib/userStore";
 import { Search } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar(){
+
+    const {userId, avatar} = userStore.getState()
 
     return(
         <>
@@ -10,10 +14,25 @@ export default function Navbar(){
             <div className="w-60 h-full flex justify-center items-center font-bold text-xl ">
                 Pastaplate
             </div>
-            <div className="w-1/4 h-full flex justify-between items-center" >
-                <Link className="w-10 h-full flex justify-center items-center" href={'/'} ><Search /></Link>
-                <Link className="w-1/3 h-full flex justify-center items-center font-medium text-lg" href={'#'}> About </Link>
-                <Link className="w-1/3 h-4/5 flex justify-center items-center font-medium text-lg bg-primary rounded-sm text-secondary" href={'/login'} > Login </Link>
+            <div className="w-1/6 h-full flex justify-around items-center" >
+                <Link href={'/'} ><Search /></Link>
+                <Link href={'#'} className="w-1/3 h-full flex justify-center items-center font-medium text-lg"> About </Link>
+                {
+                    !userId ? (
+                        <>
+                            <Link className="w-1/3 h-4/5 flex justify-center items-center font-medium text-lg bg-primary rounded-sm text-secondary" href={'/login'} >
+                                Login
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            <Link href={"/account"} >
+                                <Image src={`${avatar!}`} alt="profile_pic" width={40} height={40} className="rounded-full border-2 border-zinc-400" />
+                            </Link>
+                        </>
+                    ) 
+                }
+
             </div>
         </nav>
         </>
