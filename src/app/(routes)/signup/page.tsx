@@ -40,7 +40,7 @@ export default function Page(){
                         <Input {...register("password")} className="border border-zinc-500 h-10 outline-none" placeholder="Passowrd" type="password" />
                         <Button className="w-full h-10 font-semibold text-lg"> Submit </Button>
                     </form>
-                    <h3 className="text-sm text-zinc-500" >Already have an account? <Link className="text-primary underline" href={'/login'}>Login</Link></h3>
+                    <h3 className="text-sm text-zinc-500" >Already have an account? <Link className="text-primary underline" href={'/signin'}>Sign in</Link></h3>
                 </div>
                 <div className="w-1/2 h-full" > <Image src={bg} alt="background" className="w-full h-full rounded-r-xl" /> </div>
             </div>

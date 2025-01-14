@@ -30,6 +30,7 @@ const blogSchema: Schema<blogInterface> = new mongoose.Schema({
     content:{
         type: String,
         index: true,
+        required: true
     },
     tags:{
         type: String,

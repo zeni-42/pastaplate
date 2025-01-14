@@ -20,7 +20,7 @@ export default function Navbar(){
                 {
                     !userId ? (
                         <>
-                            <Link className="w-1/3 h-4/5 flex justify-center items-center font-medium text-lg bg-primary rounded-sm text-secondary" href={'/login'} >
+                            <Link className="w-1/3 h-4/5 flex justify-center items-center font-medium text-lg bg-primary rounded-sm text-secondary" href={'/signin'} >
                                 Login
                             </Link>
                         </>
