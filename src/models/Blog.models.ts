@@ -5,8 +5,11 @@ export interface blogInterface extends Document{
     description: string;
     author: ObjectId;
     content: String;
-    tags: string;
+    tags: string[];
     points: ObjectId[];
+    isActive: boolean;
+    isPublic: boolean;
+    imageUrl: string;
 }
 
 const blogSchema: Schema<blogInterface> = new mongoose.Schema({
@@ -32,14 +35,26 @@ const blogSchema: Schema<blogInterface> = new mongoose.Schema({
         index: true,
         required: true
     },
-    tags:{
+    tags:[{
         type: String,
         required: true,
-    },
+    }],
     points:[{
         type: mongoose.Schema.Types.ObjectId,
         ref:"User",
-    }]
+    }],
+    isActive:{
+        type: Boolean,
+        default: true
+    },
+    isPublic:{
+        type: Boolean,
+        default: true
+    },
+    imageUrl: {
+        type: String,
+        required: true
+    }
 }, { timestamps: true })
 
 export const Blog = mongoose.models.Blog as mongoose.Model<blogInterface> || mongoose.model<blogInterface>("Blog", blogSchema)
