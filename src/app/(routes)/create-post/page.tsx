@@ -10,25 +10,42 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { error } from "console";
+
+const formSchema = z.object({
+    title: z.string().min(5, { message: "Minimum length is 5"}).max(50, { message: "Maximum length is 50" }).trim(),
+    description: z.string().min(10, { message: "Minimum length is 10"}).max(100, { message: "Maximum length is 100" }).trim(),
+    content: z.string().min(1, { message: "Content cannot be empty"})
+})
 
 export default function Page(){
     const router = useRouter()
-    const { register, handleSubmit, reset } = useForm();
+    const { register, handleSubmit, reset, formState:{ errors }} = useForm<z.infer<typeof formSchema>>({
+        mode: "onChange",
+        resolver: zodResolver(formSchema)
+    });
 
     const registerBlog = async (data: any) => {
-        console.log(data);
         const { userId } = userStore.getState()
-        const response = await axios.post('/api/createPost',{
-            title: data?.title,
-            description: data?.description,
-            content: data?.content,
-            userId,
-        })
-        if (response.status == 200) {
-            toast.success("Post added")
+        try {
+            const response = await axios.post('/api/createPost',{
+                title: data?.title,
+                description: data?.description,
+                content: data?.content,
+                userId,
+            })
+            console.log(response);
+            if (response.status == 200) {
+                toast.success("Post added")
+                reset()
+            }
+        } catch (error: any) {
+            const errorMsg = error.response?.data?.message;
+            toast.error(errorMsg || "Failed to register Blog")
             reset()
         }
-        console.log(response);
     }
 
     const { userId } = userStore()
@@ -37,6 +54,7 @@ export default function Page(){
             router.push("/signin")
         }
     },[userId])
+
 
     return(
         <>
@@ -49,8 +67,11 @@ export default function Page(){
                 <form action="" onSubmit={handleSubmit(registerBlog)} className="w-2/3 flex justify-evenly items-center flex-col gap-5" >
                     <Input type="file" accept=".png .jpg .jpeg" />
                     <Input {...register("title")} autoComplete="off" className="h-14 border border-zinc-300 " placeholder="Title" />
+                    { errors.title &&  <p className="text-red-500" >{errors.title?.message }</p>}
                     <Input {...register("description")} autoComplete="off" className="h-14 border border-zinc-300 " placeholder="Description" />
+                    { errors.description &&  <p className="text-red-500" >{errors.description?.message }</p>}
                     <Textarea {...register("content")} autoComplete="off" placeholder="Your content goes here" className="h-80 border border-zinc-300 " />
+                    { errors.content &&  <p className="text-red-500" >{errors.content?.message }</p>}
                     <Button className="w-full h-14" type="submit" > Post <ChevronRight /></Button>
                 </form>
             </div>

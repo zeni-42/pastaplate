@@ -16,7 +16,9 @@ export async function POST(req: Request) {
         await DBconnect();
 
         const existingBlog = await Blog.findOne({ title })
-        if (existingBlog) return ResponseHelper.error("The title should be unique")
+        if (existingBlog){
+            return ResponseHelper.error("The title should be unique")
+        } 
 
         const blog = await Blog.create({
             title,
