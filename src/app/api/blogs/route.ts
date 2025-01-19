@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
         if (blogId == "") {
             const allBlogs = await Blog.find().select(
-                "-__v -createdAt -updatedAt -isActive"
+                "-__v -isActive"
             )
             return ResponseHelper.success(allBlogs, "Blogs details", 200)
         } else {
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
             }
 
             const blogData = await Blog.findById(blogWithId._id).select(
-                "-__v -craetedAt -updatedAt -isActive"
+                "-__v -isActive"
             )
             return ResponseHelper.success(blogData, "Blog detail", 200)
         }
