@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { error } from "console";
 
 const formSchema = z.object({
     title: z.string().min(5, { message: "Minimum length is 5"}).max(50, { message: "Maximum length is 50" }).trim(),
@@ -40,6 +39,7 @@ export default function Page(){
             if (response.status == 200) {
                 toast.success("Post added")
                 reset()
+                console.log(response);
             }
         } catch (error: any) {
             const errorMsg = error.response?.data?.message;
@@ -60,7 +60,8 @@ export default function Page(){
         <>
         <Navbar />
         <div className="mt-14 px-96" >
-            <div className="py-5 flex justify-between items-center " >
+            <div className="py-5 flex justify-start items-center gap-3 " >
+                <button onClick={() => history.back()} className="w-10 h-10 bg-secondary flex justify-center items-center rounded-full" ><ChevronLeft /></button>
                 <h1 className="text-2xl font-semibold" >Create post</h1>
             </div>
             <div className="w-full h-[80vh] flex justify-center items-start " >
