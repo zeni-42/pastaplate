@@ -13,7 +13,6 @@ export default function Page(){
     const router = useRouter()
     const { userId, fullName, avatar } = userStore.getState()
     const [blogs, setBlogs] = useState([])
-    // const [] = useState()
     const [loading, setLoading] = useState(false)
 
     const handleCreatePost = () => {
@@ -23,7 +22,7 @@ export default function Page(){
     const fetchBlogs = async () => {
         try {
             const response = await axios.post("/api/blogs", { blogId: "" })
-            console.log(response.data.data);
+            console.log(response);            
             if (response?.status === 200) {
                 setBlogs(response.data?.data)
             }
@@ -34,11 +33,11 @@ export default function Page(){
     }
 
     const fetchUser = async(userId: string) => {
-        try {            
+        try {
             const response = await axios.post('/api/users', { userId })
             console.log(response.data);
         } catch (error) {
-            
+
         }
     }
 
@@ -75,28 +74,9 @@ export default function Page(){
                                 <div className="w-full h-52 border-b flex justify-between items-start flex-col rounded-xl border-zinc-300 p-5 bg-zinc-100 gap-3" key={item._id} >
                                     <div className="w-full" key={item._id}>
                                         <div className="w-full" >
-                                            { item.author === userId ? (
-                                                <>
-                                                    <div className="flex justify-start items-center w-full gap-5" >
-                                                        <div className="flex justify-center items-center gap-2" >
-                                                            <Image src={avatar} alt="profile" width={1000} height={1000} className="w-7 h-7 rounded-full" />
-                                                            <h2 className="text-zinc-800" >{ fullName }</h2>
-                                                        </div>
-                                                        <div className="text-sm text-zinc-400" >
-                                                            {
-                                                                new Date(item.updatedAt).toLocaleDateString("en-US", {
-                                                                    year: "numeric",
-                                                                    month: "long",
-                                                                    day: "2-digit"
-                                                                })
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            ) : (
-                                                <>
-                                                </>
-                                            )}
+                                            {
+                                                
+                                            }
                                         </div>
                                     </div>
                                     <div>
