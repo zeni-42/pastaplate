@@ -5,13 +5,14 @@ import userStore from "@/lib/userStore"
 import axios from "axios"
 import { Bookmark, Heart, Loader, MessageCircle } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
 export default function Page(){
     const router = useRouter()
-    const { userId, fullName, avatar } = userStore.getState()
+    const { userId, fullName } = userStore.getState()
     const [blogs, setBlogs] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -22,22 +23,12 @@ export default function Page(){
     const fetchBlogs = async () => {
         try {
             const response = await axios.post("/api/blogs", { blogId: "" })
-            console.log(response);            
             if (response?.status === 200) {
                 setBlogs(response.data?.data)
             }
         } catch (error: any) {
             const errorMsg = error.response?.data?.message;
             toast.error( errorMsg || "Failed to get blogs")
-        }
-    }
-
-    const fetchUser = async(userId: string) => {
-        try {
-            const response = await axios.post('/api/users', { userId })
-            console.log(response.data);
-        } catch (error) {
-
         }
     }
 
@@ -71,12 +62,16 @@ export default function Page(){
                     {
                         blogs.length > 0 ? (
                             blogs.map((item: any) => (
-                                <div className="w-full h-52 border-b flex justify-between items-start flex-col rounded-xl border-zinc-300 p-5 bg-zinc-100 gap-3" key={item._id} >
+                                <Link href={`/post/${item._id}`} className="w-full h-52 border-b flex justify-between items-start flex-col rounded-xl border-zinc-300 p-5 bg-zinc-100 gap-3" key={item._id} >
                                     <div className="w-full" key={item._id}>
-                                        <div className="w-full" >
-                                            {
-                                                
-                                            }
+                                        <div className="w-full flex justify-start items-center gap-5 " >
+                                            <div className="flex justify-start items-center gap-2" >
+                                                <Image src={item.author_details.avatar} alt="profile_pic" width={1000} height={1000} className="w-7 h-7 rounded-full" />
+                                                { item.author_details.fullName}
+                                            </div>
+                                            <div className="text-sm text-zinc-500" >
+                                                { new Date(item.updatedAt).toLocaleDateString() }
+                                            </div>
                                         </div>
                                     </div>
                                     <div>
@@ -88,7 +83,7 @@ export default function Page(){
                                         <MessageCircle size={20} />
                                         <Bookmark size={20} />
                                     </div>
-                                </div>
+                                </Link>
                             ))
                         ): (
                             <p>No blogs available</p>

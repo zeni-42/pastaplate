@@ -25,6 +25,17 @@ export async function POST(req: Request) {
                             $first: "$author_details",
                         }
                     }
+                },
+                {
+                    $project: {
+                        "author_details.password": 0,
+                        "author_details.token": 0,
+                        "author_details.favorites": 0,
+                        "author_details.saved": 0,
+                        "author_details.createdAt": 0,
+                        "author_details.updatedAt": 0,
+                        "author_details.__v": 0
+                    }
                 }
             ])
 
@@ -55,6 +66,17 @@ export async function POST(req: Request) {
                         author_details: {
                             $first: "$author_details"
                         }
+                    }
+                },
+                {
+                    $project: {
+                        "author_details.password": 0,
+                        "author_details.token": 0,
+                        "author_details.favorites": 0,
+                        "author_details.saved": 0,
+                        "author_details.createdAt": 0,
+                        "author_details.updatedAt": 0,
+                        "author_details.__v": 0
                     }
                 }
             ])
