@@ -9,6 +9,8 @@ export interface userInterface extends Document{
     favorites: ObjectId[];
     saved: ObjectId[]
     token: string;
+    following: ObjectId[],
+    followers: ObjectId[]
 }
 
 const userSchema: Schema<userInterface> = new mongoose.Schema({
@@ -34,7 +36,8 @@ const userSchema: Schema<userInterface> = new mongoose.Schema({
     avatar:{
         type: String,
         index: true,
-        default: "https://res.cloudinary.com/dfbtssuwy/image/upload/v1735838884/ljziqvhelksqmytkffj9.jpg"
+        default: "https://res.cloudinary.com/dfbtssuwy/image/upload/v1735838884/ljziqvhelksqmytkffj9.jpg",
+        required: true
     },
     bio:{
         type: String,
@@ -54,7 +57,16 @@ const userSchema: Schema<userInterface> = new mongoose.Schema({
     token:{
         type: String,
         required: true
-    }
+    },
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }]
+
 }, { timestamps: true })
 
 export const User = mongoose.models.User as mongoose.Model<userInterface> || mongoose.model<userInterface>("User", userSchema)

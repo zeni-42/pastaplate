@@ -1,8 +1,9 @@
 "use client"
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import userStore from "@/lib/userStore";
 import axios from "axios";
-import { Bookmark, Heart, Loader, Upload } from "lucide-react";
+import { Bookmark, ChevronLeft, Heart, Home, Loader, SendHorizonal, Upload } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,8 +19,11 @@ export default function Page(){
 
     const fetchBlog = async () => {
         const response = await axios.post('/api/blogs', { blogId })
-        // console.log(response.data?.data[0]);
         setBlog(response.data?.data[0])
+    }
+
+    const handleFollow = () => {
+        console.log("Api calls");
     }
 
     useEffect(() => {
@@ -39,6 +43,10 @@ export default function Page(){
         <Navbar />
         <div className="mt-14 px-[25vw] ">
             <div className=" py-5 w-full h-60 border-b border-zinc-300 flex justify-around items-start flex-col gap-3 " >
+                <div className="w-full flex gap-2 justify-start items-center" >
+                    <button onClick={() => history.back()} className="w-10 h-10 rounded-full bg-secondary flex justify-center items-center" ><ChevronLeft /></button>
+                    <div className="text-sm text-zinc-500" >{blog?.title}</div>
+                </div>
                 <div className="h-2/3 w-full flex justify-evenly items-start flex-col" >
                     <h1 className="text-4xl font-bold" >{blog?.title}</h1>
                     <h3 className="text-lg font-medium text-zinc-600" >{blog?.description}</h3>
@@ -58,7 +66,7 @@ export default function Page(){
                                 new Date(blog?.updatedAt).toLocaleDateString()
                             }
                         </p>
-                        <button className="mx-3 w-20 h-full border border-emerald-600 rounded-sm" > Follow </button>
+                        <button onClick={handleFollow} className="mx-3 w-20 h-full border border-emerald-600 rounded-sm" > Follow </button>
                     </div>
                     <div className="w-1/2 h-full flex justify-end items-center gap-5" >
                         <button><Upload  scale={20} strokeWidth={1.5} /></button>
@@ -67,10 +75,11 @@ export default function Page(){
                     </div>
                 </div>
             </div>
-            <div className="w-full py-10" >
+            <div className="w-full py-10 border-b border-zinc-300 font-md text-zinc-800" >
                 {blog?.content}
             </div>
         </div>
+        <Footer />
         {
             loading && 
             <>

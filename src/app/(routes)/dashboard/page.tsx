@@ -34,8 +34,7 @@ export default function Page(){
 
     useEffect(() => {
         setLoading(true)
-        fetchBlogs()
-        setLoading(false)
+        fetchBlogs().finally(() => setLoading(false))
     },[])
     
     useEffect(() => {

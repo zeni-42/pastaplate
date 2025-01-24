@@ -35,11 +35,9 @@ export default function Page(){
                 content: data?.content,
                 userId,
             })
-            console.log(response);
             if (response.status == 200) {
                 toast.success("Post added")
                 reset()
-                console.log(response);
             }
         } catch (error: any) {
             const errorMsg = error.response?.data?.message;

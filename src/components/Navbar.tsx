@@ -1,6 +1,6 @@
 "use client"
 import userStore from "@/lib/userStore";
-import { Search } from "lucide-react";
+import { Bell, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,9 +14,9 @@ export default function Navbar(){
             <div className="w-60 h-full flex justify-center items-center font-bold text-xl ">
                 Pastaplate
             </div>
-            <div className="w-1/6 h-full flex justify-around items-center" >
-                <Link href={'/'} ><Search /></Link>
-                <Link href={'#'} className="w-1/3 h-full flex justify-center items-center font-medium text-lg"> About </Link>
+            <div className="w-1/6 h-full flex justify-end items-center gap-10" >
+                <Link href={'#'} ><Search strokeWidth={1.5} /></Link>
+                <Link href={'#'} ><Bell strokeWidth={1.5} /></Link>
                 {
                     !userId ? (
                         <>

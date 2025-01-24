@@ -10,6 +10,7 @@ export interface blogInterface extends Document{
     isActive: boolean;
     isPublic: boolean;
     imageUrl: string;
+    comments: string[];
 }
 
 const blogSchema: Schema<blogInterface> = new mongoose.Schema({
