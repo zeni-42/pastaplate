@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import userStore from "@/lib/userStore";
 import axios from "axios";
-import { Bookmark, ChevronLeft, Heart, Home, Loader, SendHorizonal, Upload } from "lucide-react";
+import { Bookmark, ChevronLeft, Heart, Loader, Upload } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -20,10 +20,7 @@ export default function Page(){
     const fetchBlog = async () => {
         const response = await axios.post('/api/blogs', { blogId })
         setBlog(response.data?.data[0])
-    }
-
-    const handleFollow = () => {
-        console.log("Api calls");
+        console.log(response);
     }
 
     useEffect(() => {
@@ -66,7 +63,6 @@ export default function Page(){
                                 new Date(blog?.updatedAt).toLocaleDateString()
                             }
                         </p>
-                        <button onClick={handleFollow} className="mx-3 w-20 h-full border border-emerald-600 rounded-sm" > Follow </button>
                     </div>
                     <div className="w-1/2 h-full flex justify-end items-center gap-5" >
                         <button><Upload  scale={20} strokeWidth={1.5} /></button>
