@@ -16,11 +16,14 @@ export default function Page(){
     const [ loading, setLoading ] = useState(false)
     const [blog, setBlog] = useState<any>(null)
     const { userId } = userStore.getState()
+    const [likeCount, setLikeCount] = useState(0)
 
     const fetchBlog = async () => {
         const response = await axios.post('/api/blogs', { blogId })
         setBlog(response.data?.data[0])
-        console.log(response);
+        const arrayOfLike: Promise<Array<string>> = response.data?.data[0].points
+        const likes = (await arrayOfLike).length
+        setLikeCount(likes)
     }
 
     useEffect(() => {
@@ -34,6 +37,16 @@ export default function Page(){
             router.push("/signin")
         }
     },[userId])
+
+    const handleUpdateLike = async() => {
+        try {
+            await axios.post("http://localhost:3000/api/updateLike",{ userId, blogId })
+            fetchBlog();
+        } catch (error: any) {
+            const errMsg = await error.response?.data?.message
+            toast.error(errMsg || "Failed to add like")
+        }
+    }
 
     return(
         <>
@@ -65,9 +78,12 @@ export default function Page(){
                         </p>
                     </div>
                     <div className="w-1/2 h-full flex justify-end items-center gap-5" >
-                        <button><Upload  scale={20} strokeWidth={1.5} /></button>
-                        <button><Heart  scale={20} strokeWidth={1.5} /></button>
-                        <button><Bookmark  scale={20} strokeWidth={1.5} /></button>
+                        <div className="flex justify-center items-center w-10 gap-2" >
+                            <button onClick={handleUpdateLike} ><Heart  scale={20} strokeWidth={1.5} /></button>
+                            {likeCount}
+                        </div>
+                        <button ><Bookmark  scale={20} strokeWidth={1.5} /></button>
+                        <button ><Upload  scale={20} strokeWidth={1.5} /></button>
                     </div>
                 </div>
             </div>
@@ -75,7 +91,7 @@ export default function Page(){
                 {blog?.content}
             </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
         {
             loading && 
             <>
