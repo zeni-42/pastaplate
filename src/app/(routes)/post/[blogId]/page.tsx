@@ -48,6 +48,10 @@ export default function Page(){
         }
     }
 
+    const handleUpdateSave = async () => {
+        console.log("Updating save");
+    }
+
     return(
         <>
         <Navbar />
@@ -82,7 +86,9 @@ export default function Page(){
                             <button onClick={handleUpdateLike} ><Heart  scale={20} strokeWidth={1.5} /></button>
                             {likeCount}
                         </div>
-                        <button ><Bookmark  scale={20} strokeWidth={1.5} /></button>
+                        <div>
+                            <button onClick={handleUpdateSave} ><Bookmark  scale={20} strokeWidth={1.5} /></button>
+                        </div>
                         <button ><Upload  scale={20} strokeWidth={1.5} /></button>
                     </div>
                 </div>

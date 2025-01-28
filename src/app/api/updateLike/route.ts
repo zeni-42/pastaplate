@@ -22,19 +22,32 @@ export async function POST(req: Request) {
             return ResponseHelper.error("User does not exist", 404)
         }
 
+        const alreadyLiked = blog.points.includes(userId)
+
         const updatedBlog = await Blog.findByIdAndUpdate(
-            blogId, 
-            {
+            blogId,
+            alreadyLiked ? {
+                $pull: { points: userId }
+            } : {
                 $addToSet: { points: userId }
-            }, 
-            { 
-                new: true
+            }
+        )
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            alreadyLiked ? {
+                $pull: { liked: blogId }
+            } : {
+                $addToSet: { liked: blogId }
             }
         )
         if (!updatedBlog) {
             return ResponseHelper.error("Like exist", 403)
         }
-        return ResponseHelper.success(updatedBlog, "Blog updated successfully", 200)
+
+        const message = alreadyLiked ? "Like removed" : "Liked"
+
+        return ResponseHelper.success(updatedBlog, message, 200)
 
     } catch (error) {
         console.log("Somthing went wrong in the updateLike route")

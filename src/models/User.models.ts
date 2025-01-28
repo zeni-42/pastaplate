@@ -6,7 +6,7 @@ export interface userInterface extends Document{
     password: string;
     avatar: string;
     bio: string;
-    favorites: ObjectId[];
+    liked: ObjectId[];
     saved: ObjectId[]
     token: string;
     following: ObjectId[],
@@ -44,7 +44,7 @@ const userSchema: Schema<userInterface> = new mongoose.Schema({
         max: 200,
         min: 0
     },
-    favorites: [{
+    liked: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Blog",
         index: true
