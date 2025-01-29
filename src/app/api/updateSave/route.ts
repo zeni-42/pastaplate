@@ -33,7 +33,7 @@ export async function POST(req: Request) {
             }
         )
 
-        const message = alreadySaved ? "Remove from saves" : "Saved"
+        const message = alreadySaved ? "Removed" : "Saved"
 
         return ResponseHelper.success(updateUser, message, 200)
     } catch (error) {

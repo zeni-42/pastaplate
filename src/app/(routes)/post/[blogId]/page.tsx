@@ -44,12 +44,22 @@ export default function Page(){
             fetchBlog();
         } catch (error: any) {
             const errMsg = await error.response?.data?.message
-            toast.error(errMsg || "Failed to add like")
+            toast.error(errMsg || "Failed to like")
         }
     }
 
     const handleUpdateSave = async () => {
-        console.log("Updating save");
+        try {
+            const response = await axios.post("http://localhost:3000/api/updateSave",{ userId, blogId })
+            const message = response.data?.message
+            if (response.status == 200) {
+                toast.success(message)
+            }
+            fetchBlog();
+        } catch (error: any) {
+            const errMsg = await error.response?.data?.message
+            toast.error(errMsg || "Failed to save")
+        }
     }
 
     return(
@@ -82,12 +92,12 @@ export default function Page(){
                         </p>
                     </div>
                     <div className="w-1/2 h-full flex justify-end items-center gap-5" >
-                        <div className="flex justify-center items-center w-10 gap-2" >
+                        <div className="flex justify-center items-center w-10 h-full gap-2" >
                             <button onClick={handleUpdateLike} ><Heart  scale={20} strokeWidth={1.5} /></button>
                             {likeCount}
                         </div>
-                        <div>
-                            <button onClick={handleUpdateSave} ><Bookmark  scale={20} strokeWidth={1.5} /></button>
+                        <div className="flex justify-center items-center w-10 h-full gap-2" >
+                            <button onClick={handleUpdateSave}><Bookmark  scale={20} strokeWidth={1.5} /></button>
                         </div>
                         <button ><Upload  scale={20} strokeWidth={1.5} /></button>
                     </div>
