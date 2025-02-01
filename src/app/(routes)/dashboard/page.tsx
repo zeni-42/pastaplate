@@ -48,9 +48,9 @@ export default function Page(){
         <>
         <Navbar />
         <div className="mt-14 px-96">
-            <div className="mb-5 w-full h-14 flex items-center text-xl justify-between font-medium" >
-                {`👋 Welcome ${fullName}!`}
-                <Button onClick={handleCreatePost} >Create post</Button>
+            <div className="mb-5 w-full h-14 flex items-center text-2xl justify-between font-medium" >
+                {`Welcome ${fullName}! 👋`}
+                <Button onClick={handleCreatePost} >Post</Button>
             </div>
             <div className="w-full h-10 " >
                 Here tags will be there

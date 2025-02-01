@@ -17,6 +17,7 @@ export default function Page(){
     const [blog, setBlog] = useState<any>(null)
     const { userId } = userStore.getState()
     const [likeCount, setLikeCount] = useState(0)
+    const [isDisabled, setIsDisabled] = useState(false)
 
     const fetchBlog = async () => {
         const response = await axios.post('/api/blogs', { blogId })
@@ -62,6 +63,22 @@ export default function Page(){
         }
     }
 
+    const handleCopyLink = async () => {
+        if (isDisabled) return
+        const url = typeof window !== "undefined" ? window.location.href : ""
+        try {
+            await navigator.clipboard.writeText(url)
+            toast.success("Link copied")
+            setIsDisabled(true)
+
+            setTimeout(() => {
+                setIsDisabled(false)
+            }, 3000)
+        } catch (error) {
+            toast.error("Failed to copy URL")
+        }
+    }
+
     return(
         <>
         <Navbar />
@@ -93,17 +110,19 @@ export default function Page(){
                     </div>
                     <div className="w-1/2 h-full flex justify-end items-center gap-5" >
                         <div className="flex justify-center items-center w-10 h-full gap-2" >
-                            <button onClick={handleUpdateLike} ><Heart  scale={20} strokeWidth={1.5} /></button>
+                            <button className="cursor-pointer" onClick={() => setTimeout(() => handleUpdateLike(), 1200) } ><Heart  scale={20} strokeWidth={1.5} /></button>
                             {likeCount}
                         </div>
                         <div className="flex justify-center items-center w-10 h-full gap-2" >
-                            <button onClick={handleUpdateSave}><Bookmark  scale={20} strokeWidth={1.5} /></button>
+                            <button className="cursor-pointer" onClick={() => setTimeout(() => handleUpdateSave(), 1200)}><Bookmark  scale={20} strokeWidth={1.5} /></button>
                         </div>
-                        <button ><Upload  scale={20} strokeWidth={1.5} /></button>
+                        <div className="flex justify-center items-center w-10 h-full gap-2" >
+                            <button className="cursor-pointer" onClick={handleCopyLink} ><Upload  scale={20} strokeWidth={1.5} /></button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="w-full py-10 border-b border-zinc-300 font-md text-zinc-800" >
+            <div className="w-full py-10 border-b border-zinc-300 font-md text-zinc-800 text-justify" >
                 {blog?.content}
             </div>
         </div>
