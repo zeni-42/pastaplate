@@ -1,7 +1,6 @@
 "use client"
 import Navbar from "@/components/Navbar"
 import { Button } from "@/components/ui/button"
-import userStore from "@/lib/userStore"
 import axios from "axios"
 import { Bookmark, Heart, Loader, MessageCircle } from "lucide-react"
 import Image from "next/image"
@@ -12,9 +11,11 @@ import toast from "react-hot-toast"
 
 export default function Page(){
     const router = useRouter()
-    const { userId, fullName } = userStore.getState()
     const [blogs, setBlogs] = useState([])
     const [loading, setLoading] = useState(false)
+
+    const userId = sessionStorage.getItem("userId")
+    const fullName = sessionStorage.getItem("fullName")
 
     const handleCreatePost = () => {
         router.push('/create-post')

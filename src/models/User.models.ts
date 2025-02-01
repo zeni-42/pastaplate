@@ -5,7 +5,8 @@ export interface userInterface extends Document{
     userName: string;
     password: string;
     avatar: string;
-    bio: string;
+    bio: string,
+    tags: string[],
     liked: ObjectId[];
     saved: ObjectId[]
     token: string;
@@ -65,8 +66,10 @@ const userSchema: Schema<userInterface> = new mongoose.Schema({
     followers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
+    }],
+    tags: [{
+        type: String,
     }]
-
 }, { timestamps: true })
 
 export const User = mongoose.models.User as mongoose.Model<userInterface> || mongoose.model<userInterface>("User", userSchema)

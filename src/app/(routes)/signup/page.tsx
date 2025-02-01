@@ -19,7 +19,7 @@ export default function Page(){
             if (response.status === 200) {
                 toast.success(response.data?.message || "User Registered")
                 reset();
-                router.push('/signin')
+                router.push('/select-tags')
             }
         } catch (error: any) {
             const errorMsg = error.response?.data?.message;

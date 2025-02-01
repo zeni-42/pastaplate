@@ -8,23 +8,23 @@ import bg from "@/image/bg.jpg"
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import userStore from "@/lib/userStore";
 
 export default function Page(){
     const {register, handleSubmit, reset} = useForm()
     const router = useRouter()
-    const { setUser } = userStore.getState();
 
     const submitForm = async (data:any) => {
         try {
             const response = await axios.post('/api/signin', {...data})
             if (response.status === 200) {
-
-                const userId = response.data?.data?._id;
-                const userName = response.data?.data?.userName;
-                const fullName = response.data?.data?.fullName;
-                const avatar = response.data?.data?.avatar;
-                setUser(fullName, userName, userId, avatar )
+                sessionStorage.setItem("userId", response.data?.data?._id )
+                sessionStorage.setItem("userName", response.data?.data?.userName )
+                sessionStorage.setItem("fullName", response.data?.data?.fullName )
+                sessionStorage.setItem("avatar", response.data?.data?.avatar)
+                // const userId = response.data?.data?._id;
+                // const userName = response.data?.data?.userName;
+                // const fullName = response.data?.data?.fullName;
+                // const avatar = response.data?.data?.avatar;
 
                 router.push('/dashboard')
                 toast.success(response.data?.message || "Authenticated")

@@ -30,7 +30,7 @@ export async function POST(req: Request) {
                     $project: {
                         "author_details.password": 0,
                         "author_details.token": 0,
-                        "author_details.favorites": 0,
+                        "author_details.liked": 0,
                         "author_details.saved": 0,
                         "author_details.createdAt": 0,
                         "author_details.updatedAt": 0,
@@ -72,8 +72,7 @@ export async function POST(req: Request) {
                     $project: {
                         "author_details.password": 0,
                         "author_details.token": 0,
-                        "author_details.favorites": 0,
-                        // "author_details.saved": 0,
+                        "author_details.liked": 0,
                         "author_details.createdAt": 0,
                         "author_details.updatedAt": 0,
                         "author_details.__v": 0

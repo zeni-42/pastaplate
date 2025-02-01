@@ -1,12 +1,12 @@
 "use client"
-import userStore from "@/lib/userStore";
 import { Bell, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar(){
 
-    const {userId, avatar} = userStore.getState()
+    const userId = sessionStorage.getItem("userId")
+    const avatar = sessionStorage.getItem("avatar")
 
     return(
         <>
@@ -32,7 +32,6 @@ export default function Navbar(){
                         </>
                     ) 
                 }
-
             </div>
         </nav>
         </>

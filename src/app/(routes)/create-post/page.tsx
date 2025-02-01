@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const formSchema = z.object({
     title: z.string().min(5, { message: "Minimum length is 5"}).max(50, { message: "Maximum length is 50" }).trim(),
     description: z.string().min(10, { message: "Minimum length is 10"}).max(100, { message: "Maximum length is 100" }).trim(),
+    tags: z.string(),
     content: z.string().min(1, { message: "Content cannot be empty"})
 })
 
@@ -69,6 +70,7 @@ export default function Page(){
                     { errors.title &&  <p className="text-red-500" >{errors.title?.message }</p>}
                     <Input {...register("description")} autoComplete="off" className="h-14 border border-zinc-300 " placeholder="Description" />
                     { errors.description &&  <p className="text-red-500" >{errors.description?.message }</p>}
+                    <Input {...register("tags")} autoComplete="off" className="h-14 border border-zinc-300 " placeholder="Tags" />
                     <Textarea {...register("content")} autoComplete="off" placeholder="Your content goes here" className="h-80 border border-zinc-300 " />
                     { errors.content &&  <p className="text-red-500" >{errors.content?.message }</p>}
                     <Button className="w-full h-14" type="submit" > Post <ChevronRight /></Button>
