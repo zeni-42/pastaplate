@@ -20,13 +20,16 @@ export default function Page(){
                 sessionStorage.setItem("userId", response.data?.data?._id )
                 sessionStorage.setItem("userName", response.data?.data?.userName )
                 sessionStorage.setItem("fullName", response.data?.data?.fullName )
-                sessionStorage.setItem("avatar", response.data?.data?.avatar)
-                // const userId = response.data?.data?._id;
-                // const userName = response.data?.data?.userName;
-                // const fullName = response.data?.data?.fullName;
-                // const avatar = response.data?.data?.avatar;
+                sessionStorage.setItem("avatar", response.data?.data?.avatar )
 
-                router.push('/dashboard')
+                const tags = response.data?.data?.tags;
+
+                if (tags && tags.length > 0) {
+                    router.push('/dashboard')
+                } else {
+                    router.push('/select-tags')
+                }
+
                 toast.success(response.data?.message || "Authenticated")
                 reset()
             } 

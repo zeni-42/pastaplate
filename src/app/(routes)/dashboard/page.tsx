@@ -45,6 +45,8 @@ export default function Page(){
         }
     },[userId])
 
+    console.log(blogs);
+
     return(
         <>
         <Navbar />
@@ -67,7 +69,7 @@ export default function Page(){
                                         <div className="w-full flex justify-start items-center gap-5 " >
                                             <div className="flex justify-start items-center gap-2" >
                                                 <Image src={item.author_details.avatar} alt="profile_pic" width={1000} height={1000} className="w-7 h-7 rounded-full" />
-                                                { item.author_details.fullName}
+                                                { item.author_details.fullName }
                                             </div>
                                             <div className="text-sm text-zinc-500" >
                                                 { new Date(item.updatedAt).toLocaleDateString() }

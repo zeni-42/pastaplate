@@ -1,5 +1,4 @@
 "use client"
-import userStore from "@/lib/userStore";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +20,7 @@ const formSchema = z.object({
 })
 
 export default function Page(){
+    const userId = sessionStorage.getItem("userId")
     const router = useRouter()
     const { register, handleSubmit, reset, formState:{ errors }} = useForm<z.infer<typeof formSchema>>({
         mode: "onChange",
@@ -28,7 +28,6 @@ export default function Page(){
     });
 
     const registerBlog = async (data: any) => {
-        const { userId } = userStore.getState()
         try {
             const response = await axios.post('/api/createPost',{
                 title: data?.title,
@@ -47,7 +46,6 @@ export default function Page(){
         }
     }
 
-    const { userId } = userStore()
     useEffect(() => {
         if (!userId) {
             router.push("/signin")

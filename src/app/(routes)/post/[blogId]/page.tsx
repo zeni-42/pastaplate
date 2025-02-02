@@ -1,7 +1,6 @@
 "use client"
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import userStore from "@/lib/userStore";
 import axios from "axios";
 import { Bookmark, ChevronLeft, Heart, Loader, Upload } from "lucide-react";
 import Image from "next/image";
@@ -15,7 +14,7 @@ export default function Page(){
     const blogId = params.blogId;
     const [ loading, setLoading ] = useState(false)
     const [blog, setBlog] = useState<any>(null)
-    const { userId } = userStore.getState()
+    const userId = sessionStorage.getItem("userId")
     const [likeCount, setLikeCount] = useState(0)
     const [isDisabled, setIsDisabled] = useState(false)
 
