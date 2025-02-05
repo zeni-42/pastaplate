@@ -45,8 +45,6 @@ export default function Page(){
         }
     },[userId])
 
-    console.log(blogs);
-
     return(
         <>
         <Navbar />

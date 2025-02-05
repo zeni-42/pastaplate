@@ -1,6 +1,7 @@
 import DBconnect from "@/lib/connectDB";
 import ResponseHelper from "@/lib/responseHelper";
 import { User } from "@/models/User.models";
+import mongoose from "mongoose";
 
 export async function POST(req: Request) {
     const { userId } = await req.json();
@@ -8,9 +9,16 @@ export async function POST(req: Request) {
         await DBconnect();
 
         if (userId == "") {
-            const users = await User.find().select(
-                "-password -token -__v -createdAt -updatedAt"
-            )
+            const users = await User.aggregate([
+                {
+                    $lookup:{
+                        from: "tags",
+                        localField: "tags",
+                        foreignField: "_id",
+                        as: "tags_details"
+                    }
+                }
+            ])
             return ResponseHelper.success(users ,"userId is required", 402)
         } else {
             const user = await User.findById(userId)
@@ -18,9 +26,19 @@ export async function POST(req: Request) {
                 return ResponseHelper.error("User not found", 404)
             }
 
-            const userDetails = await User.findById(userId).select(
-                "-password -token -createdAt -updatedAt -__v"
-            )
+            const userDetails = await User.aggregate([
+                {
+                    $match: new mongoose.Types.ObjectId(userId),
+                },
+                {
+                    $lookup:{
+                        from: "tags",
+                        localField: "tags",
+                        foreignField: "_id",
+                        as: "tags_details"
+                    }
+                }
+            ])
             return ResponseHelper.success(userDetails, "User details", 200)
         }
 
